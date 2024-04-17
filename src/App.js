@@ -26,19 +26,8 @@ function App() {
     } else {
       console.log("Kirjastoja ei löytynyt");
     }
-
-    console.log(nimiData)
-    console.log(kaupunkiData)
-    console.log(kirjastot)
   }
  
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      kasitteleHaku();
-    }
-  }
- 
-
 //map funktio kirjastot listasta, jokaisen kirjaston kohalla luodaan KirjastoKortti joilla on propseina itse kirjasto ja sen id
   return (
     <div className="App">
@@ -51,7 +40,6 @@ function App() {
             placeholder="Etsi kirjaston tai kaupungin nimellä"
             value={hakuTermi}
             onChange={(e) => setHakuTermi(e.target.value)}
-            onKeyDown={handleKeyDown}
           />
           <button className="haku-nappi" onClick={kasitteleHaku}>Hae</button>
           
