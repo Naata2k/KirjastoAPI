@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import KirjastoKortti from './components/KirjastoKortti'
 
 function App() {
-  const [hakuTermi, sethakuTermi] = useState('');
+  const [hakuTermi, setHakuTermi] = useState('');
   const [kirjastot, setKirjastot] = useState([]);
   
   const kasitteleHaku = async () => {
@@ -16,42 +16,50 @@ function App() {
     const kaupunkiHakuVastaus = await fetch(kaupunkiHakuURL);
     const nimiHakuVastaus = await fetch(nimiHakuURL);
     
-    const KaupunkiData = await kaupunkiHakuVastaus.json();
-    const NimiData = await nimiHakuVastaus.json();
+    const kaupunkiData = await kaupunkiHakuVastaus.json();
+    const nimiData = await nimiHakuVastaus.json();
 
-    console.log(KaupunkiData)   
+    if (kaupunkiData.items && kaupunkiData.items.length > 0) {
+      setKirjastot(kaupunkiData.items);
+    } else if (nimiData.items && nimiData.items.length > 0) {
+      setKirjastot(nimiData.items);
+    } else {
+      console.log("Kirjastoja ei löytynyt");
+    }
 
-    if(data.type === "")
-
-  };
-
+    console.log(nimiData)
+    console.log(kaupunkiData)
+    console.log(kirjastot)
+  }
+ 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       kasitteleHaku();
     }
-  };
+  }
+ 
 
+//map funktio kirjastot listasta, jokaisen kirjaston kohalla luodaan KirjastoKortti joilla on propseina itse kirjasto ja sen id
   return (
     <div className="App">
-
        <div className="haku-container">
+
+          <h1>Kirjasto hakukone</h1>
           <input
             type="text"
             className="haku-input"
             placeholder="Etsi kirjaston tai kaupungin nimellä"
             value={hakuTermi}
-            onChange={(e) => sethakuTermi(e.target.value)}
+            onChange={(e) => setHakuTermi(e.target.value)}
             onKeyDown={handleKeyDown}
           />
           <button className="haku-nappi" onClick={kasitteleHaku}>Hae</button>
+          
           {kirjastot.map((kirjasto) => (
-            <KirjastoKortti kirjasto={kirjasto} />
+            <KirjastoKortti key={kirjasto.id} kirjasto={kirjasto} />
           ))}
 
         </div>
-
-
-
     </div>
   );
 }
