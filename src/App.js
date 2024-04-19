@@ -19,8 +19,10 @@ function App() {
     const kaupunkiData = await kaupunkiHakuVastaus.json();
     const nimiData = await nimiHakuVastaus.json();
 
+    //jos kaupunki haulla löytyy kirjastoja laitetaan ne kirjastot listaan
     if (kaupunkiData.items && kaupunkiData.items.length > 0) {
       setKirjastot(kaupunkiData.items);
+    //jos nimi haulla löytyy kirjastoja laitetaan se kirajstot listaan
     } else if (nimiData.items && nimiData.items.length > 0) {
       setKirjastot(nimiData.items);
     } else {
